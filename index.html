@@ -120,7 +120,7 @@
                     <button id="more">
                         <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2"
                             fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 12 13 2"></polygon>
                         </svg> Scoprimi
                     </button>
                 </p>
@@ -193,11 +193,46 @@
             var buttonId = "pulsanteVisualizza" + categoria.charAt(0).toUpperCase() + categoria.slice(1);
             var button = document.getElementById(buttonId);
 
-            var prodottiSimulati = [
-                { nome: "Prodotto 1", descrizione: "Descrizione prodotto 1", prezzo: 5.99, quantita: 10 },
-                { nome: "Prodotto 2", descrizione: "Descrizione prodotto 2", prezzo: 3.99, quantita: 15 },
-                { nome: "Prodotto 3", descrizione: "Descrizione prodotto 3", prezzo: 7.99, quantita: 20 }
-            ];
+            var prodottiRealistic = []; // Definisci i prodotti reali per ogni categoria
+
+            // Inserisci i prodotti reali per ogni categoria
+            if (categoria === "cornetti") {
+                prodottiRealistic = [
+                    { nome: "Cornetto al Cioccolato", descrizione: "Delizioso cornetto ripieno di crema al cioccolato", prezzo: 1.50, quantita: 20 },
+                    { nome: "Cornetto alla Crema", descrizione: "Cornetto classico con crema pasticciera", prezzo: 1.20, quantita: 15 },
+                    { nome: "Cornetto alla Marmellata", descrizione: "Cornetto con gustosa marmellata di fragole", prezzo: 1.20, quantita: 10 }
+                ];
+            } else if (categoria === "bevande") {
+                prodottiRealistic = [
+                    { nome: "Acqua Naturale", descrizione: "Bottiglia d'acqua naturale", prezzo: 0.50, quantita: 30 },
+                    { nome: "Coca Cola", descrizione: "Bottiglia di Coca Cola 33cl", prezzo: 1.20, quantita: 20 },
+                    { nome: "Aranciata", descrizione: "Bottiglia di aranciata 33cl", prezzo: 1.00, quantita: 25 }
+                ];
+            } else if (categoria === "pizze") {
+                prodottiRealistic = [
+                    { nome: "Pizza Margherita", descrizione: "Pizza con pomodoro, mozzarella e basilico", prezzo: 5.50, quantita: 15 },
+                    { nome: "Pizza Prosciutto Funghi", descrizione: "Pizza con pomodoro, mozzarella, prosciutto cotto e funghi", prezzo: 6.50, quantita: 10 },
+                    { nome: "Pizza Quattro Stagioni", descrizione: "Pizza divisa in quattro parti con ingredienti diversi", prezzo: 7.00, quantita: 12 }
+                ];
+            } else if (categoria === "panini") {
+                prodottiRealistic = [
+                    { nome: "Panino al Salame", descrizione: "Panino con salame, formaggio e insalata", prezzo: 3.50, quantita: 20 },
+                    { nome: "Panino Vegetariano", descrizione: "Panino con verdure grigliate e formaggio", prezzo: 4.00, quantita: 18 },
+                    { nome: "Panino al Tonno", descrizione: "Panino con tonno, cipolla e maionese", prezzo: 4.50, quantita: 15 }
+                ];
+            } else if (categoria === "caffe") {
+                prodottiRealistic = [
+                    { nome: "Espresso", descrizione: "Caffè espresso", prezzo: 1.00, quantita: 25 },
+                    { nome: "Cappuccino", descrizione: "Caffè con latte montato a vapore", prezzo: 1.50, quantita: 20 },
+                    { nome: "Macchiato", descrizione: "Caffè macchiato con un po' di latte caldo", prezzo: 1.20, quantita: 22 }
+                ];
+            } else if (categoria === "snack") {
+                prodottiRealistic = [
+                    { nome: "Patatine", descrizione: "Bustina di patatine salate", prezzo: 0.80, quantita: 30 },
+                    { nome: "Pretzel", descrizione: "Snack a forma di pretzel", prezzo: 1.00, quantita: 25 },
+                    { nome: "Popcorn", descrizione: "Bustina di popcorn al burro", prezzo: 1.50, quantita: 20 }
+                ];
+            }
 
             if (table.style.display === "block") {
                 table.style.display = "none";
@@ -213,7 +248,7 @@
                 });
                 table.appendChild(headerRow);
 
-                prodottiSimulati.forEach(element => {
+                prodottiRealistic.forEach(element => {
                     var riga = document.createElement("tr");
                     var col1 = document.createElement("td");
                     var col2 = document.createElement("td");
@@ -228,7 +263,7 @@
 
                     col1.textContent = element.nome;
                     col2.textContent = element.descrizione;
-                    col3.textContent = element.prezzo + "€";
+                    col3.textContent = element.prezzo.toFixed(2) + "€";
                     col4.textContent = element.quantita;
                     inputQuantita.type = "number";
                     inputQuantita.min = "1";
@@ -304,7 +339,7 @@
 
                 col1.textContent = element.nome;
                 col2.textContent = element.quantita;
-                col3.textContent = element.prezzoUnitario + "€";
+                col3.textContent = element.prezzoUnitario.toFixed(2) + "€";
                 col4.textContent = element.prezzoTotale + "€";
 
                 riga.appendChild(col1);
@@ -325,31 +360,17 @@
             visualizzaCarrello();
         }
 
-        function aggiungiProdottoCasualeAlCarrello() {
-            var prodottoSelezionato = { nome: "Prodotto 1", descrizione: "Descrizione prodotto 1", prezzo: 5.99, quantita: 10 };
-            var quantitaSelezionata = 3;
-
-            aggiungiProdottoAlCarrello(prodottoSelezionato.nome, prodottoSelezionato.prezzo, quantitaSelezionata, prodottoSelezionato.quantita);
-        }
-
+        visualizzaCarrello(); // Visualizza il carrello all'avvio della pagina
 
         window.addEventListener('load', (event) => {
-            visualizzaCarrello();
-            setInterval(aggiungiProdottoCasualeAlCarrello, 15000);
+            visualizzaCarrello(); // Visualizza il carrello all'avvio della pagina
+            setTimeout(aggiungiProdottoAutomatico, 15000); // Aggiungi automaticamente il prodotto dopo 15 secondi
         });
-    </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('service-worker.js')
-                    .then(reg => {
-                        console.log('Service worker registered! 😎', reg);
-                    })
-                    .catch(err => {
-                        console.log('😥 Service worker registration failed: ', err);
-                    });
-            });
+
+        function aggiungiProdottoAutomatico() {
+            aggiungiProdottoAlCarrello("Cornetto al cioccolato", 2.99, 3, 10); // Aggiungi il cornetto al cioccolato al carrello con quantità 3
         }
+
     </script>
 </body>
 
